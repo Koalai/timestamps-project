@@ -29,26 +29,29 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get('/api', (req, res) => {
+  const now = new Date()
   res.json({
-    unix: new Date().getTime(),
-    utc: new Date().toUTCString()
+    unix: now.getTime(),
+    utc: now.toUTCString()
   })
 })
 
 app.get('/api/:date', (req, res) => {
   const currentDate = req.params.date
+  const input = Number(currentDate)
+  const newDate = new Date(currentDate)
   
-  if(!isNaN(Number(currentDate))){
+  if(!isNaN(input)){
    return res.json({
-     unix: Number(currentDate),
-     utc: new Date(Number(currentDate)).toUTCString()
+     unix: input,
+     utc: new Date(input).toUTCString()
     })
   }
  
-  if(new Date(currentDate).toUTCString() !== "Invalid Date"){
+  if(newDate.toUTCString() !== "Invalid Date"){
     return res.json({
-      unix: new Date(currentDate).getTime(),
-      utc: new Date(currentDate).toUTCString()
+      unix: newDate.getTime(),
+      utc: newDate.toUTCString()
     })
   }
 
